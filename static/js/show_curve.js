@@ -8,7 +8,6 @@ function zoomChart(chart, chartData) {
 }
 
 function generateChartData(data_from_python) {
-    
     var chartData = [];
 
     for (i in data_from_python) {
@@ -28,7 +27,8 @@ function generateChartData(data_from_python) {
         var amp = parseFloat(data_from_python[i].value)
         chartData.push({
             date: newDate,
-            value: amp
+            value: amp,
+            temp: parseFloat(data_from_python[i].temp)
         });
     }
     return chartData;
@@ -44,33 +44,56 @@ function update_amchart(json_data) {
 		"marginTop": 7,
 		"dataProvider": chart_data,
 		"valueAxes": [{
+            "id": "currentAxis",
 			"axisAlpha": 0.2,
 			"dashLength": 1,
 			"position": "left"
-		}],
+		}, {
+            "id": "tempAxis",
+            "axisAlpha": 0.1,
+            "dashLength" : 1,
+            "position": "right"
+        }],
 		"mouseWheelZoomEnabled": true,
 		"graphs": [{
-			"id": "g1",
-			"balloonText": "[[value]]",
+			"balloonText": "[[value]] A",
 			"bullet": "round",
 			"bulletBorderAlpha": 1,
 			"bulletColor": "#FFFFFF",
 			"hideBulletsCount": 50,
-			"title": "red line",
+			"title": "current",
 			"valueField": "value",
 			"useLineColorForBulletBorder": true,
 			"balloon":{
 				"drop":true
 			},
-            "fillAlphas": 0.2
-		}],
+            "fillAlphas": 0.2,
+            "valueAxis": "currentAxis",
+            "labelText": "current",
+            "negativeLineColor": "#b60000",
+            "negativeBase": 80
+		}, {
+			"balloonText": "[[value]]°C",
+			"bullet": "round",
+			"bulletBorderAlpha": 1,
+			"bulletColor": "#FFFFFF",
+			"hideBulletsCount": 50,
+			"title": "temp",
+			"valueField": "temp",
+			"useLineColorForBulletBorder": true,
+			"balloon":{
+				"drop":true
+			},
+            "fillAlphas": 0.1,
+            "valueAxis": "tempAxis",
+            "labelText": "temp."
+
+        }],
 		"chartScrollbar": {
 			"autoGridCount": true,
-			"graph": "g1",
 			"scrollbarHeight": 40
 		},
 		"chartCursor": {
-		   "limitToGraph":"g1"
 		},
 		"categoryField": "date",
 		"categoryAxis": {
@@ -92,7 +115,7 @@ $(function() {
         json_data = [];
         for (i = 0; i < qq['data'].length; ++i) {
             var toks = qq['data'][i].split(" ");
-            json_data.push({'datetime': toks[0] + " " + toks[1], 'value': parseFloat(toks[2])});
+            json_data.push({'datetime': toks[0] + " " + toks[1], 'value': parseFloat(toks[2]), 'temp': parseFloat(toks[3])});
         }
         update_amchart(json_data)
 });
