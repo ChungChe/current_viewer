@@ -69,7 +69,6 @@ function update_amchart(json_data) {
 			},
             "fillAlphas": 0.2,
             "valueAxis": "currentAxis",
-            "labelText": "current",
             "negativeLineColor": "#b60000",
             "negativeBase": 80
 		}, {
@@ -86,7 +85,6 @@ function update_amchart(json_data) {
 			},
             "fillAlphas": 0.1,
             "valueAxis": "tempAxis",
-            "labelText": "temp."
 
         }],
 		"chartScrollbar": {
@@ -101,7 +99,7 @@ function update_amchart(json_data) {
 			"parseDates": true,
 			"axisColor": "#DADADA",
 			"dashLength": 1,
-			"minorGridEnabled": true
+			"minorGridEnabled": true,
 		},
 		"export": {
 			"enabled": true
