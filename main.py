@@ -27,7 +27,7 @@ def upload():
             for l in lines:
                 print(l)
                 tok = l.split('\n')[0]
-                # 2017/05/31 12:30:15 15
+                # 2017/05/31 12:30:15 15 32 15
                 dic['data'].append(tok)
         #print(dic)
         # remove the file
